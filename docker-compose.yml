@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gif_splitter
+    ports:
+      - "5433:5432" # Changed the host port to 5433
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6380:6379" # Changed the host port to 6380
+    volumes:
+      - redis_data:/data
+
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000" # Changed the host port to 3001
+    depends_on:
+      - postgres
+      - redis
+    command: sh -c "npm install && npx prisma db push && npm run dev"
+
+volumes:
+  postgres_data:
+  redis_data:
