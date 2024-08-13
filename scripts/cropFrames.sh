@@ -28,6 +28,7 @@ for frame in "$input_folder"/frame_*.png; do
     for ((col=0; col<cols; col++)); do
       x_offset=$((col * cell_width))
       y_offset=$((row * cell_height))
+      echo 'convert "$frame" -crop ${cell_width}x${cell_height}+${x_offset}+${y_offset} +repage "$output_folder/${filename%.*}_r${row}_c${col}.png"'
       convert "$frame" -crop ${cell_width}x${cell_height}+${x_offset}+${y_offset} +repage "$output_folder/${filename%.*}_r${row}_c${col}.png"
     done
   done

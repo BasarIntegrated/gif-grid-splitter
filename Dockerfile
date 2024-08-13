@@ -1,21 +1,21 @@
 # Use the official Node.js 20 image
 FROM node:20 
 
-# # Install build dependencies and libraries for Image manipulation
-RUN apt-get update && \
-    apt-get install -y \
-      pkg-config \
-      libcairo2-dev \
-      libpango1.0-dev \
-      libpng-dev \
-      libjpeg-dev \
-      libgif-dev \
-      librsvg2-dev \
-      && rm -rf /var/lib/apt/lists/*
+# Install build dependencies and libraries for Image manipulation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    pkg-config \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install ImageMagick
-RUN apt-get update && \
-    apt-get install -y imagemagick
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    imagemagick \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create and set the working directory
 WORKDIR /app
